@@ -840,10 +840,12 @@ html {
         clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
         height: 100vh;
         padding-top: 80px;
+        width: 100vw;
     }
 
     .hero-content {
         padding: 1rem;
+        max-width: 100%;
     }
 
     .hero h1 {
@@ -860,16 +862,26 @@ html {
     .services {
         padding: 4rem 1rem;
         margin-top: 0;
+        width: 100%;
     }
 
     .about {
         padding: 4rem 1rem;
         clip-path: none;
         margin-top: 0;
+        width: 100%;
     }
 
     .contact {
         padding: 4rem 1rem;
+        width: 100%;
+    }
+
+    .services-container,
+    .about-container,
+    .contact-container {
+        max-width: 100%;
+        padding: 0;
     }
 
     .services-grid,
@@ -877,6 +889,7 @@ html {
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        padding: 0;
     }
 
     .cta-button {
@@ -911,9 +924,24 @@ html {
         font-size: 1rem;
         margin-bottom: 2rem;
     }
+
+    .projects-gallery {
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 0;
+    }
 }
 
 @media (max-width: 480px) {
+    * {
+        max-width: 100vw;
+    }
+
+    body {
+        width: 100vw;
+        overflow-x: hidden;
+    }
+
     .gallery-item {
         width: 250px;
         height: 180px;
@@ -921,6 +949,7 @@ html {
 
     .hero-content {
         padding: 1rem 0.5rem;
+        width: 100%;
     }
 
     .hero h1 {
@@ -965,5 +994,9 @@ html {
 
     .feature-number {
         font-size: 2.5rem;
+    }
+
+    .services-grid {
+        padding: 0;
     }
 }
