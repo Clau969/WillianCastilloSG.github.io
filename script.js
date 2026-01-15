@@ -2,91 +2,39 @@
 // NAVBAR SCROLL EFFECT
 // ===================================
 const navbar = document.getElementById('navbar');
-let lastScroll = 0;
 
 window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    // Agregar clase scrolled
-    if (currentScroll > 50) {
+    if (window.scrollY > 50) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
-    
-    lastScroll = currentScroll;
 });
 
 // ===================================
-// MOBILE MENU TOGGLE - CORREGIDO
+// MOBILE MENU TOGGLE
 // ===================================
 const menuToggle = document.getElementById('menuToggle');
 const navLeft = document.querySelector('.nav-left');
 const navRight = document.querySelector('.nav-right');
 
-// Crear overlay para el menú
-const menuOverlay = document.createElement('div');
-menuOverlay.classList.add('menu-overlay');
-document.body.appendChild(menuOverlay);
-
 menuToggle.addEventListener('click', () => {
     menuToggle.classList.toggle('active');
     navLeft.classList.toggle('active');
-    menuOverlay.classList.toggle('active');
-    
-    // Prevenir scroll cuando el menú está abierto
-    if (navLeft.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
-    }
-    
-    // Solo mostramos nav-left que contendrá todos los enlaces en móvil
-    if (window.innerWidth <= 968 && navLeft.classList.contains('active')) {
-        const rightLinks = navRight.querySelectorAll('li');
-        const leftLinks = navLeft.querySelectorAll('li');
-        
-        // Si nav-left no tiene todos los enlaces, los copiamos
-        if (leftLinks.length < 4) {
-            rightLinks.forEach(link => {
-                const clonedLink = link.cloneNode(true);
-                navLeft.appendChild(clonedLink);
-            });
-        }
-    }
-});
-
-// Cerrar menú al hacer clic en el overlay
-menuOverlay.addEventListener('click', () => {
-    menuToggle.classList.remove('active');
-    navLeft.classList.remove('active');
-    menuOverlay.classList.remove('active');
-    document.body.style.overflow = '';
+    navRight.classList.toggle('active');
 });
 
 // ===================================
 // CLOSE MENU WHEN CLICKING ON A LINK
 // ===================================
-document.addEventListener('click', (e) => {
-    if (e.target.matches('.nav-left a') || e.target.matches('.nav-right a')) {
+const navItems = document.querySelectorAll('.nav-left a, .nav-right a');
+
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
         menuToggle.classList.remove('active');
         navLeft.classList.remove('active');
         navRight.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-});
-
-// ===================================
-// CLOSE MENU WHEN CLICKING OUTSIDE
-// ===================================
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.navbar') && !e.target.closest('.nav-left') && navLeft.classList.contains('active')) {
-        menuToggle.classList.remove('active');
-        navLeft.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+    });
 });
 
 // ===================================
@@ -95,13 +43,22 @@ document.addEventListener('click', (e) => {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
+        
+        // Cerrar menú móvil si está abierto
+        menuToggle.classList.remove('active');
+        navLeft.classList.remove('active');
+        navRight.classList.remove('active');
+        
         const target = document.querySelector(this.getAttribute('href'));
         
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            // Pequeño delay para que el menú se cierre primero
+            setTimeout(() => {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 300);
         }
     });
 });
@@ -178,7 +135,40 @@ serviceCards.forEach(card => {
 });
 
 // ===================================
-// ACTIVE LINK HIGHLIGHT
+// ANIMATED NUMBERS (STATS)
+// ===================================
+const animateNumber = (element, target, duration = 2000) => {
+    const start = 0;
+    const increment = target / (duration / 16); // 60fps
+    let current = start;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current);
+    }, 16);
+};
+
+// Si tienes elementos con números para animar, descomenta esto:
+// const statsObserver = new IntersectionObserver((entries) => {
+//     entries.forEach(entry => {
+//         if (entry.isIntersecting) {
+//             const number = parseInt(entry.target.getAttribute('data-number'));
+//             animateNumber(entry.target, number);
+//             statsObserver.unobserve(entry.target);
+//         }
+//     });
+// }, { threshold: 0.5 });
+
+// document.querySelectorAll('.stat-number').forEach(stat => {
+//     statsObserver.observe(stat);
+// });
+
+// ===================================
+// ACTIVE LINK HIGHLIGHT (SI AÑADES NAVBAR)
 // ===================================
 const sections = document.querySelectorAll('section[id]');
 
@@ -210,6 +200,29 @@ window.addEventListener('load', () => {
         document.body.style.opacity = '1';
     }, 100);
 });
+
+// ===================================
+// RESPONSIVE MENU (SI AÑADES NAVBAR MÓVIL)
+// ===================================
+const createMobileMenu = () => {
+    const nav = document.querySelector('nav');
+    if (!nav) return;
+    
+    const menuToggle = document.createElement('button');
+    menuToggle.classList.add('menu-toggle');
+    menuToggle.innerHTML = '☰';
+    menuToggle.setAttribute('aria-label', 'Toggle menu');
+    
+    menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+        menuToggle.textContent = nav.classList.contains('active') ? '✕' : '☰';
+    });
+    
+    nav.appendChild(menuToggle);
+};
+
+// Ejecutar al cargar
+// createMobileMenu();
 
 // ===================================
 // CONSOLE BRANDING
