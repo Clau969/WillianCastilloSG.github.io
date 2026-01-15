@@ -4,46 +4,59 @@
 const navbar = document.getElementById('navbar');
 
 window.addEventListener('scroll', () => {
-    if (window.innerWidth <= 768) return;
-
-    const scrolled = window.pageYOffset;
-    const parallaxSpeed = 0.5;
-
-    if (hero && scrolled < window.innerHeight) {
-        hero.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
     }
 });
 
-
 // ===================================
-// MOBILE MENU TOGGLE
+// MOBILE MENU TOGGLE - CORREGIDO
 // ===================================
-const navMobile = document.getElementById('navMobile');
+const menuToggle = document.getElementById('menuToggle');
+const navLeft = document.querySelector('.nav-left');
+const navRight = document.querySelector('.nav-right');
 
 menuToggle.addEventListener('click', () => {
     menuToggle.classList.toggle('active');
-    navMobile.classList.toggle('active');
+    // Solo mostramos nav-left que contendrá todos los enlaces en móvil
+    navLeft.classList.toggle('active');
+    
+    // Copiar enlaces de nav-right a nav-left solo en móvil si aún no existen
+    if (window.innerWidth <= 968 && navLeft.classList.contains('active')) {
+        const rightLinks = navRight.querySelectorAll('li');
+        const leftLinks = navLeft.querySelectorAll('li');
+        
+        // Si nav-left no tiene todos los enlaces, los copiamos
+        if (leftLinks.length < 4) {
+            rightLinks.forEach(link => {
+                const clonedLink = link.cloneNode(true);
+                navLeft.appendChild(clonedLink);
+            });
+        }
+    }
 });
-
-document.querySelectorAll('#navMobile a').forEach(link => {
-    link.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
-        navMobile.classList.remove('active');
-    });
-});
-
 
 // ===================================
 // CLOSE MENU WHEN CLICKING ON A LINK
 // ===================================
-const navItems = document.querySelectorAll('.nav-left a, .nav-right a');
-
-navItems.forEach(item => {
-    item.addEventListener('click', () => {
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.nav-left a') || e.target.matches('.nav-right a')) {
         menuToggle.classList.remove('active');
         navLeft.classList.remove('active');
         navRight.classList.remove('active');
-    });
+    }
+});
+
+// ===================================
+// CLOSE MENU WHEN CLICKING OUTSIDE
+// ===================================
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.navbar') && navLeft.classList.contains('active')) {
+        menuToggle.classList.remove('active');
+        navLeft.classList.remove('active');
+    }
 });
 
 // ===================================
@@ -135,40 +148,7 @@ serviceCards.forEach(card => {
 });
 
 // ===================================
-// ANIMATED NUMBERS (STATS)
-// ===================================
-const animateNumber = (element, target, duration = 2000) => {
-    const start = 0;
-    const increment = target / (duration / 16); // 60fps
-    let current = start;
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            current = target;
-            clearInterval(timer);
-        }
-        element.textContent = Math.floor(current);
-    }, 16);
-};
-
-// Si tienes elementos con números para animar, descomenta esto:
-// const statsObserver = new IntersectionObserver((entries) => {
-//     entries.forEach(entry => {
-//         if (entry.isIntersecting) {
-//             const number = parseInt(entry.target.getAttribute('data-number'));
-//             animateNumber(entry.target, number);
-//             statsObserver.unobserve(entry.target);
-//         }
-//     });
-// }, { threshold: 0.5 });
-
-// document.querySelectorAll('.stat-number').forEach(stat => {
-//     statsObserver.observe(stat);
-// });
-
-// ===================================
-// ACTIVE LINK HIGHLIGHT (SI AÑADES NAVBAR)
+// ACTIVE LINK HIGHLIGHT
 // ===================================
 const sections = document.querySelectorAll('section[id]');
 
@@ -202,29 +182,6 @@ window.addEventListener('load', () => {
 });
 
 // ===================================
-// RESPONSIVE MENU (SI AÑADES NAVBAR MÓVIL)
-// ===================================
-const createMobileMenu = () => {
-    const nav = document.querySelector('nav');
-    if (!nav) return;
-    
-    const menuToggle = document.createElement('button');
-    menuToggle.classList.add('menu-toggle');
-    menuToggle.innerHTML = '☰';
-    menuToggle.setAttribute('aria-label', 'Toggle menu');
-    
-    menuToggle.addEventListener('click', () => {
-        nav.classList.toggle('active');
-        menuToggle.textContent = nav.classList.contains('active') ? '✕' : '☰';
-    });
-    
-    nav.appendChild(menuToggle);
-};
-
-// Ejecutar al cargar
-// createMobileMenu();
-
-// ===================================
 // CONSOLE BRANDING
 // ===================================
 console.log(
@@ -240,5 +197,4 @@ console.log(
 console.log(
     '%c📞 +34 641 03 7148 | +34 624 37 9837',
     'font-size: 12px; color: #888888;'
-
 );
