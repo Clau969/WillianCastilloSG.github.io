@@ -2,13 +2,19 @@
 // NAVBAR SCROLL EFFECT
 // ===================================
 const navbar = document.getElementById('navbar');
+let lastScroll = 0;
 
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
+    const currentScroll = window.pageYOffset;
+    
+    // Agregar clase scrolled
+    if (currentScroll > 50) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
+    
+    lastScroll = currentScroll;
 });
 
 // ===================================
