@@ -850,15 +850,15 @@ body {
 
     /* Acelerar animaciones en tablets */
     .row-right {
-        animation: scrollRight 18s linear infinite;
+        animation: scrollRight 12s linear infinite;
     }
 
     .row-left {
-        animation: scrollLeft 20s linear infinite;
+        animation: scrollLeft 14s linear infinite;
     }
 
     .row-right-slow {
-        animation: scrollRight 22s linear infinite;
+        animation: scrollRight 16s linear infinite;
     }
 
     /* Acelerar animaciones en móviles */
@@ -883,15 +883,15 @@ body {
 
     /* Más rápido en móviles pequeños */
     .row-right {
-        animation: scrollRight 12s linear infinite;
+        animation: scrollRight 8s linear infinite;
     }
 
     .row-left {
-        animation: scrollLeft 14s linear infinite;
+        animation: scrollLeft 10s linear infinite;
     }
 
     .row-right-slow {
-        animation: scrollRight 16s linear infinite;
+        animation: scrollRight 12s linear infinite;
     }
 
     /* Más rápido en pantallas pequeñas */
