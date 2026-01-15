@@ -847,4 +847,61 @@ body {
         width: 250px;
         height: 180px;
     }
+/* ===============================
+   FIX MENÚ MÓVIL
+================================ */
+.nav-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    .nav-left,
+    .nav-right {
+        display: none !important;
+    }
+
+    .nav-mobile {
+        display: block;
+        position: fixed;
+        top: 80px;
+        right: -100%;
+        width: 260px;
+        height: calc(100vh - 80px);
+        background: rgba(26,26,26,0.98);
+        transition: right 0.3s ease;
+        z-index: 999;
+        border-left: 2px solid #e0a32e;
+    }
+
+    .nav-mobile.active {
+        right: 0;
+    }
+
+    .nav-mobile ul {
+        list-style: none;
+        padding: 2rem;
+    }
+
+    .nav-mobile li {
+        margin-bottom: 1rem;
+    }
+
+    .nav-mobile a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(224,163,46,0.2);
+    }
+
+    /* FIX ABOUT */
+    .about {
+        margin-top: 0 !important;
+        clip-path: none !important;
+        padding-top: 4rem;
+    }
+}
+
+
 }
