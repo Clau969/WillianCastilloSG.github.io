@@ -4,25 +4,34 @@
 const navbar = document.getElementById('navbar');
 
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
+    if (window.innerWidth <= 768) return;
+
+    const scrolled = window.pageYOffset;
+    const parallaxSpeed = 0.5;
+
+    if (hero && scrolled < window.innerHeight) {
+        hero.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
     }
 });
+
 
 // ===================================
 // MOBILE MENU TOGGLE
 // ===================================
-const menuToggle = document.getElementById('menuToggle');
-const navLeft = document.querySelector('.nav-left');
-const navRight = document.querySelector('.nav-right');
+const navMobile = document.getElementById('navMobile');
 
 menuToggle.addEventListener('click', () => {
     menuToggle.classList.toggle('active');
-    navLeft.classList.toggle('active');
-    navRight.classList.toggle('active');
+    navMobile.classList.toggle('active');
 });
+
+document.querySelectorAll('#navMobile a').forEach(link => {
+    link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navMobile.classList.remove('active');
+    });
+});
+
 
 // ===================================
 // CLOSE MENU WHEN CLICKING ON A LINK
@@ -231,4 +240,5 @@ console.log(
 console.log(
     '%c📞 +34 641 03 7148 | +34 624 37 9837',
     'font-size: 12px; color: #888888;'
+
 );
