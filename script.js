@@ -18,12 +18,24 @@ const menuToggle = document.getElementById('menuToggle');
 const navLeft = document.querySelector('.nav-left');
 const navRight = document.querySelector('.nav-right');
 
+// Crear overlay para el menú
+const menuOverlay = document.createElement('div');
+menuOverlay.classList.add('menu-overlay');
+document.body.appendChild(menuOverlay);
+
 menuToggle.addEventListener('click', () => {
     menuToggle.classList.toggle('active');
-    // Solo mostramos nav-left que contendrá todos los enlaces en móvil
     navLeft.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
     
-    // Copiar enlaces de nav-right a nav-left solo en móvil si aún no existen
+    // Prevenir scroll cuando el menú está abierto
+    if (navLeft.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+    
+    // Solo mostramos nav-left que contendrá todos los enlaces en móvil
     if (window.innerWidth <= 968 && navLeft.classList.contains('active')) {
         const rightLinks = navRight.querySelectorAll('li');
         const leftLinks = navLeft.querySelectorAll('li');
@@ -38,6 +50,14 @@ menuToggle.addEventListener('click', () => {
     }
 });
 
+// Cerrar menú al hacer clic en el overlay
+menuOverlay.addEventListener('click', () => {
+    menuToggle.classList.remove('active');
+    navLeft.classList.remove('active');
+    menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+});
+
 // ===================================
 // CLOSE MENU WHEN CLICKING ON A LINK
 // ===================================
@@ -46,6 +66,8 @@ document.addEventListener('click', (e) => {
         menuToggle.classList.remove('active');
         navLeft.classList.remove('active');
         navRight.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
     }
 });
 
@@ -53,9 +75,11 @@ document.addEventListener('click', (e) => {
 // CLOSE MENU WHEN CLICKING OUTSIDE
 // ===================================
 document.addEventListener('click', (e) => {
-    if (!e.target.closest('.navbar') && navLeft.classList.contains('active')) {
+    if (!e.target.closest('.navbar') && !e.target.closest('.nav-left') && navLeft.classList.contains('active')) {
         menuToggle.classList.remove('active');
         navLeft.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
     }
 });
 
