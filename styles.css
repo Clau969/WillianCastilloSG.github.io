@@ -801,9 +801,11 @@ body {
     }
 
     .services::before,
+    .about::before
     .contact::before {
-        display: none;
-    }
+    display: none;
+}
+
 
     .services {
         padding: 4rem 1rem;
