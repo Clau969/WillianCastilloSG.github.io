@@ -372,15 +372,15 @@ body {
 
 /* Animaciones de las filas */
 .row-right {
-    animation: scrollRight 35s linear infinite;
+    animation: scrollRight 25s linear infinite;
 }
 
 .row-left {
-    animation: scrollLeft 40s linear infinite;
+    animation: scrollLeft 30s linear infinite;
 }
 
 .row-right-slow {
-    animation: scrollRight 45s linear infinite;
+    animation: scrollRight 35s linear infinite;
 }
 
 .gallery-item {
