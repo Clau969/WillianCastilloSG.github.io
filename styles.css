@@ -13,6 +13,13 @@ body {
     background: #1a1a1a;
     overflow-x: hidden;
     line-height: 1.6;
+    width: 100%;
+    max-width: 100vw;
+}
+
+html {
+    overflow-x: hidden;
+    width: 100%;
 }
 
 /* ===================================
@@ -200,12 +207,14 @@ body {
 .hero {
     position: relative;
     height: 100vh;
+    width: 100%;
     background: linear-gradient(135deg, rgba(26, 26, 26, 0.75), rgba(0, 0, 0, 0.65)),
                 url('images/hero-background.jpg') center/cover;
     display: flex;
     align-items: center;
     justify-content: center;
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    overflow: hidden;
 }
 
 .hero-content {
@@ -281,6 +290,9 @@ body {
     position: relative;
     padding: 8rem 2rem 6rem;
     background: #1a1a1a;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .services::before {
@@ -322,6 +334,7 @@ body {
    =================================== */
 .projects-gallery {
     width: 100%;
+    max-width: 100%;
     overflow: hidden;
     margin-bottom: 5rem;
     padding: 3rem 0;
