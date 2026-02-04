@@ -1,7 +1,7 @@
 /* ===================================
    RESET Y CONFIGURACIÓN GENERAL
    =================================== */
-   * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -13,6 +13,8 @@ body {
     background: #1a1a1a;
     overflow-x: hidden;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* ===================================
@@ -33,6 +35,7 @@ body {
     background: rgba(26, 26, 26, 0.98);
     box-shadow: 0 2px 25px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid #e0a32e;
 }
 
@@ -151,15 +154,21 @@ body {
     display: none;
     flex-direction: column;
     cursor: pointer;
-    gap: 5px;
+    gap: 6px;
+    position: relative;
+    z-index: 1001;
+    padding: 15px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .menu-toggle span {
-    width: 25px;
+    width: 28px;
     height: 3px;
     background: #e0a32e;
     transition: all 0.3s ease;
     border-radius: 2px;
+    display: block;
 }
 
 .menu-toggle.active span:nth-child(1) {
@@ -199,11 +208,13 @@ body {
 .hero {
     position: relative;
     height: 100vh;
+    min-height: 600px;
     background: linear-gradient(135deg, rgba(26, 26, 26, 0.75), rgba(0, 0, 0, 0.65)),
                 url('images/hero-background.jpg') center/cover;
     display: flex;
     align-items: center;
     justify-content: center;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 }
 
@@ -290,6 +301,7 @@ body {
     width: 100%;
     height: 150px;
     background: #1a1a1a;
+    -webkit-clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
     clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
 }
 
@@ -445,6 +457,7 @@ body {
     border: 2px solid #e0a32e;
     box-shadow: 0 20px 60px rgba(224, 163, 46, 0.4);
     animation: slideIn 0.4s ease;
+    -webkit-overflow-scrolling: touch;
 }
 
 .modal-close {
@@ -523,6 +536,7 @@ body {
     position: relative;
     padding: 8rem 2rem;
     background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+    -webkit-clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
     clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
     margin-top: -100px;
 }
@@ -606,6 +620,7 @@ body {
     width: 100%;
     height: 150px;
     background: #1a1a1a;
+    -webkit-clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
     clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
 }
 
@@ -615,8 +630,9 @@ body {
 }
 
 .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 2rem;
     margin-bottom: 4rem;
 }
@@ -628,6 +644,8 @@ body {
     text-align: center;
     border: 2px solid #2a2a2a;
     transition: all 0.3s ease;
+    width: 100%;
+    max-width: 400px;
 }
 
 .contact-card:hover {
@@ -654,10 +672,12 @@ body {
     display: block;
     color: #e0a32e;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     margin: 0.5rem 0;
     transition: all 0.3s ease;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .contact-card a:hover {
@@ -753,147 +773,99 @@ body {
     }
 }
 
+
 /* ===================================
-   RESPONSIVE DESIGN
+   RESPONSIVIDAD TOTAL (CORREGIDO)
    =================================== */
-@media (max-width: 968px) {
+
+/* Tabletas y Móviles Grandes */
+/* ===================================
+   RESPONSIVIDAD TOTAL (CORREGIDO)
+   =================================== */
+
+   @media (max-width: 1024px) {
+    /* Navbar más flexible */
     .nav-container {
-        grid-template-columns: 1fr auto auto;
-        padding: 0 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 5%;
+        height: 80px;
     }
 
-    .nav-left,
-    .nav-right {
-        display: none;
-    }
+    .nav-left, .nav-right { display: none; }
 
     .menu-toggle {
         display: flex;
-        grid-column: 3;
+        order: 3;
+        margin-right: 15px; /* Separación del borde derecho */
     }
 
     .logo {
-        grid-column: 2;
+        order: 2;
+        margin: 0 auto;
     }
 
-    .logo-text {
-        font-size: 1.2rem;
+    /* Menú Lateral */
+    .nav-left.active {
+        display: flex;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 80%;
+        max-width: 300px;
+        height: 100dvh;
+        background: rgba(20, 20, 20, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        z-index: 2000; /* Asegura que esté por encima de todo */
+        border-left: 2px solid #e0a32e;
+    }
+
+    /* SOLUCIÓN AL TEXTO TAPADO: Quitamos los cortes diagonales */
+    .hero, .about, .services, .contact {
+        clip-path: none !important;
+        -webkit-clip-path: none !important;
+        margin-top: 0 !important;
+        padding: 60px 20px !important; /* Espaciado interno para que respire el texto */
+    }
+
+    /* Ajuste de títulos que se cortan */
+    h2, .hero h1 {
+        font-size: 1.8rem !important;
+        line-height: 1.2;
+        text-align: center;
+    }
+}
+
+/* Celulares muy pequeños */
+@media (max-width: 480px) {
+    .logo-img { height: 30px; }
+    .logo-text { font-size: 0.8rem; }
+    
+    .nav-container {
+        padding: 0 3%;
     }
 
     .logo-img {
-        height: 40px;
+        height: 35px; /* Logo un poco más pequeño para que no choque */
+    }
+
+    .logo-text {
+        font-size: 0.9rem;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem; /* Ajuste de texto de bienvenida */
     }
 }
 
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: flex;
-    }
-
-    .nav-left,
-    .nav-right {
-        position: fixed;
-        top: 80px;
-        right: -100%;
-        flex-direction: column;
-        background: rgba(26, 26, 26, 0.98);
-        width: 250px;
-        height: calc(100vh - 80px);
-        padding: 2rem;
-        transition: right 0.3s ease;
-        gap: 0;
-        border-left: 2px solid #e0a32e;
-        z-index: 999;
-    }
-
-    .nav-left.active,
-    .nav-right.active {
-        right: 0;
-    }
-
-    .nav-left li,
-    .nav-right li {
-        width: 100%;
-        margin: 0.5rem 0;
-    }
-
-    .nav-left a,
-    .nav-right a {
-        display: block;
-        padding: 1rem;
-        border-bottom: 1px solid rgba(224, 163, 46, 0.2);
-    }
-
-    .hero {
-        clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
-    }
-
-    .services::before,
-    .about,
-    .contact::before {
-        display: none;
-    }
-
-    .services {
-        padding: 4rem 1rem;
-    }
-
-    .about {
-        padding: 4rem 1rem;
-        margin-top: 0;
-        clip-path: none;
-    }
-
-    .contact {
-        padding: 4rem 1rem;
-    }
-
-    .services-grid,
-    .features-grid,
-    .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .cta-button {
-        padding: 1rem 2rem;
-        font-size: 1rem;
-    }
-
-    .modal-image {
-        height: 300px;
-    }
-
-    .modal-info h2 {
-        font-size: 1.6rem;
-    }
-
-    .modal-info p {
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .modal-content {
-        width: 95%;
-        margin: 1rem;
-    }
-
-    .modal-image {
-        height: 250px;
-    }
-
-    .modal-info {
-        padding: 1.5rem;
-    }
-
-    .modal-info h2 {
-        font-size: 1.4rem;
-    }
-
-    .modal-close {
-        font-size: 2.5rem;
-        top: 0.5rem;
-        right: 1rem;
+/* Ajuste para pantallas horizontales (Landscape) */
+@media (max-height: 500px) and (orientation: landscape) {
+    .nav-left.active {
+        gap: 0.5rem;
+        overflow-y: auto; /* Permite scroll si el menú es muy alto */
     }
 }
