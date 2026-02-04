@@ -18,13 +18,13 @@ window.addEventListener('scroll', () => {
 });
 
 // ===================================
-// MOBILE MENU TOGGLE - CORREGIDO
+// MOBILE MENU TOGGLE
 // ===================================
 const menuToggle = document.getElementById('menuToggle');
 const navLeft = document.querySelector('.nav-left');
 const navRight = document.querySelector('.nav-right');
 
-// Crear overlay para el menÃº
+// Crear overlay para el menú
 const menuOverlay = document.createElement('div');
 menuOverlay.classList.add('menu-overlay');
 document.body.appendChild(menuOverlay);
@@ -34,14 +34,14 @@ menuToggle.addEventListener('click', () => {
     navLeft.classList.toggle('active');
     menuOverlay.classList.toggle('active');
     
-    // Prevenir scroll cuando el menÃº estÃ¡ abierto
+    // Prevenir scroll cuando el menú está abierto
     if (navLeft.classList.contains('active')) {
         document.body.style.overflow = 'hidden';
     } else {
         document.body.style.overflow = '';
     }
     
-    // Solo mostramos nav-left que contendrÃ¡ todos los enlaces en mÃ³vil
+    // Solo mostramos nav-left que contendrá todos los enlaces en móvil
     if (window.innerWidth <= 968 && navLeft.classList.contains('active')) {
         const rightLinks = navRight.querySelectorAll('li');
         const leftLinks = navLeft.querySelectorAll('li');
@@ -56,7 +56,7 @@ menuToggle.addEventListener('click', () => {
     }
 });
 
-// Cerrar menÃº al hacer clic en el overlay
+// Cerrar menú al hacer clic en el overlay
 menuOverlay.addEventListener('click', () => {
     menuToggle.classList.remove('active');
     navLeft.classList.remove('active');
@@ -107,6 +107,103 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ===================================
+// MODAL FUNCTIONALITY FOR SERVICES
+// ===================================
+const modal = document.getElementById('projectModal');
+const modalImage = document.getElementById('modalImage');
+const modalTitle = document.getElementById('modalTitle');
+const modalDescription = document.getElementById('modalDescription');
+const modalClose = document.querySelector('.modal-close');
+
+// Datos de cada servicio con sus imágenes correspondientes
+const serviceData = {
+    electricidad: {
+        title: 'INSTALACIÓN ELÉCTRICA',
+        description: 'Instalaciones eléctricas industriales y domésticas de alta calidad. Montaje profesional de tableros y circuitos eléctricos cumpliendo con todas las normativas de seguridad.',
+        images: ['images/proyecto-1.jpeg', 'images/proyecto-8.jpg', 'images/proyecto-14.jpeg']
+    },
+    fontaneria: {
+        title: 'FONTANERÍA PROFESIONAL',
+        description: 'Servicios completos de fontanería. Reparación e instalación de sistemas de agua potable y desagüe. Trabajos garantizados con materiales de primera calidad.',
+        images: ['images/proyecto-3.jpg']
+    },
+    pladur: {
+        title: 'TRABAJOS EN PLADUR',
+        description: 'Especialistas en drywall y pladur. Divisiones de espacios, techos falsos y acabados de primera calidad. Resultados perfectos y duraderos.',
+        images: ['images/proyecto-4.jpeg']
+    },
+    reformas: {
+        title: 'REFORMA INTEGRAL',
+        description: 'Reformas completas de viviendas y locales comerciales. Transformamos tus espacios con diseños modernos y acabados impecables. Gestión integral del proyecto.',
+        images: ['images/proyecto-2.jpeg', 'images/proyecto-10.jpeg', 'images/proyecto-11.jpeg']
+    },
+    pintura: {
+        title: 'PINTURA PROFESIONAL',
+        description: 'Servicios de pintura interior y exterior. Acabados perfectos y duraderos. Utilizamos pinturas de alta calidad para garantizar los mejores resultados.',
+        images: ['images/proyecto-5.jpeg', 'images/proyecto-1.jpeg']
+    },
+    soldadura: {
+        title: 'SOLDADURA ESPECIALIZADA',
+        description: 'Trabajos profesionales de soldadura en general. Especialistas en acero inoxidable y estructuras metálicas. Calidad y precisión garantizadas.',
+        images: ['images/proyecto-6.jpeg', 'images/proyecto-9.jpeg', 'images/proyecto-13.jpeg']
+    },
+    alicatado: {
+        title: 'ALICATADO PREMIUM',
+        description: 'Colocación profesional de azulejos y racholas. Baños y cocinas con acabados impecables. Atención al detalle en cada proyecto.',
+        images: ['images/proyecto-7.jpeg']
+    },
+    tableros: {
+        title: 'TABLEROS ELÉCTRICOS',
+        description: 'Diseño y montaje de tableros eléctricos industriales. Instalación completa de sistemas de pozo a tierra. Cumplimiento de normativas vigentes.',
+        images: ['images/proyecto-8.jpg', 'images/proyecto-12.jpeg', 'images/proyecto-14.jpeg']
+    }
+};
+
+// Agregar evento click a cada tarjeta de servicio
+document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('click', function() {
+        const service = this.getAttribute('data-service');
+        const data = serviceData[service];
+        
+        if (data) {
+            // Establecer el título y descripción
+            modalTitle.textContent = data.title;
+            modalDescription.textContent = data.description;
+            
+            // Establecer la primera imagen del servicio
+            modalImage.src = data.images[0];
+            modalImage.alt = data.title;
+            
+            // Mostrar el modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    });
+});
+
+// Cerrar modal al hacer click en la X
+modalClose.addEventListener('click', () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+});
+
+// Cerrar modal al hacer click fuera del contenido
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});
+
+// Cerrar modal con la tecla Escape
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});
+
+// ===================================
 // SCROLL ANIMATIONS (INTERSECTION OBSERVER)
 // ===================================
 const observerOptions = {
@@ -132,7 +229,7 @@ serviceCards.forEach((card, index) => {
     observer.observe(card);
 });
 
-// Animar caracterÃ­sticas
+// Animar características
 const features = document.querySelectorAll('.feature');
 features.forEach((feature, index) => {
     feature.style.opacity = '0';
@@ -215,7 +312,7 @@ window.addEventListener('load', () => {
 // CONSOLE BRANDING
 // ===================================
 console.log(
-    '%cðŸ”§ WILLIAN CASTILLO',
+    '%c🔧 WILLIAN CASTILLO',
     'font-size: 24px; font-weight: bold; color: #e0a32e; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);'
 );
 
@@ -225,7 +322,6 @@ console.log(
 );
 
 console.log(
-    '%cðŸ“ž +34 641 03 7148 | +34 624 37 9837',
+    '%c📞 +34 641 03 7148 | +34 624 37 9837',
     'font-size: 12px; color: #888888;'
 );
-
