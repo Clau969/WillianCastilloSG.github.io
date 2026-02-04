@@ -20,60 +20,62 @@ window.addEventListener('scroll', () => {
 // ===================================
 // MOBILE MENU TOGGLE
 // ===================================
+// ===================================
+// MOBILE MENU TOGGLE (CORREGIDO SIN DUPLICADOS)
+// ===================================
 const menuToggle = document.getElementById('menuToggle');
 const navLeft = document.querySelector('.nav-left');
 const navRight = document.querySelector('.nav-right');
+let linksCloned = false; // <-- Este es el "seguro" para evitar duplicados
 
-// Crear overlay para el menú
-const menuOverlay = document.createElement('div');
-menuOverlay.classList.add('menu-overlay');
-document.body.appendChild(menuOverlay);
+// Crear overlay si no existe
+let menuOverlay = document.querySelector('.menu-overlay');
+if (!menuOverlay) {
+    menuOverlay = document.createElement('div');
+    menuOverlay.classList.add('menu-overlay');
+    document.body.appendChild(menuOverlay);
+}
 
-menuToggle.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
-    navLeft.classList.toggle('active');
-    menuOverlay.classList.toggle('active');
-    
-    // Prevenir scroll cuando el menú está abierto
-    if (navLeft.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
-    }
-    
-    // Solo mostramos nav-left que contendrá todos los enlaces en móvil
-    if (window.innerWidth <= 968 && navLeft.classList.contains('active')) {
-        const rightLinks = navRight.querySelectorAll('li');
-        const leftLinks = navLeft.querySelectorAll('li');
-        
-        // Si nav-left no tiene todos los enlaces, los copiamos
-        if (leftLinks.length < 4) {
-            rightLinks.forEach(link => {
-                const clonedLink = link.cloneNode(true);
-                navLeft.appendChild(clonedLink);
-            });
-        }
-    }
-});
-
-// Cerrar menú al hacer clic en el overlay
-menuOverlay.addEventListener('click', () => {
+function closeMenu() {
     menuToggle.classList.remove('active');
     navLeft.classList.remove('active');
     menuOverlay.classList.remove('active');
     document.body.style.overflow = '';
-});
+}
 
+if (menuToggle) {
+    menuToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        menuToggle.classList.toggle('active');
+        navLeft.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+        
+        if (navLeft.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+            
+            // SOLO CLONAR SI NO SE HA HECHO ANTES
+            if (!linksCloned && window.innerWidth <= 968) {
+                const rightLinks = navRight.querySelectorAll('li');
+                rightLinks.forEach(link => {
+                    const clonedLink = link.cloneNode(true);
+                    navLeft.appendChild(clonedLink);
+                });
+                linksCloned = true; // <-- Marcamos que ya se hizo
+            }
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
+}
+
+menuOverlay.addEventListener('click', closeMenu);
 // ===================================
 // CLOSE MENU WHEN CLICKING ON A LINK
 // ===================================
 document.addEventListener('click', (e) => {
     if (e.target.matches('.nav-left a') || e.target.matches('.nav-right a')) {
-        menuToggle.classList.remove('active');
-        navLeft.classList.remove('active');
-        navRight.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+        closeMenu();
     }
 });
 
@@ -82,28 +84,33 @@ document.addEventListener('click', (e) => {
 // ===================================
 document.addEventListener('click', (e) => {
     if (!e.target.closest('.navbar') && !e.target.closest('.nav-left') && navLeft.classList.contains('active')) {
-        menuToggle.classList.remove('active');
-        navLeft.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+        closeMenu();
     }
 });
 
+
+// SMOOTH SCROLL (CORREGIDO PARA ENLACES CLONADOS)
 // ===================================
-// SMOOTH SCROLL
-// ===================================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+document.addEventListener('click', function (e) {
+    // Verificamos si lo que se presionó es un enlace que empieza con #
+    const anchor = e.target.closest('a[href^="#"]');
+    
+    if (anchor) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const targetId = anchor.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
         
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+        if (targetElement) {
+            // Cerramos el menú móvil por si acaso está abierto
+            closeMenu();
+
+            // Realizamos el desplazamiento suave
+            window.scrollTo({
+                top: targetElement.offsetTop - 70, // Ajuste para que el navbar no tape el título
+                behavior: 'smooth'
             });
         }
-    });
+    }
 });
 
 // ===================================
