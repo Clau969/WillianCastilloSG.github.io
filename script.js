@@ -17,12 +17,6 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 
-// ===================================
-// MOBILE MENU TOGGLE
-// ===================================
-// ===================================
-// MOBILE MENU TOGGLE (CORREGIDO SIN DUPLICADOS)
-// ===================================
 const menuToggle = document.getElementById('menuToggle');
 const navLeft = document.querySelector('.nav-left');
 const navRight = document.querySelector('.nav-right');
@@ -70,27 +64,19 @@ if (menuToggle) {
 }
 
 menuOverlay.addEventListener('click', closeMenu);
-// ===================================
-// CLOSE MENU WHEN CLICKING ON A LINK
-// ===================================
+
 document.addEventListener('click', (e) => {
     if (e.target.matches('.nav-left a') || e.target.matches('.nav-right a')) {
         closeMenu();
     }
 });
 
-// ===================================
-// CLOSE MENU WHEN CLICKING OUTSIDE
-// ===================================
 document.addEventListener('click', (e) => {
     if (!e.target.closest('.navbar') && !e.target.closest('.nav-left') && navLeft.classList.contains('active')) {
         closeMenu();
     }
 });
 
-
-// SMOOTH SCROLL (CORREGIDO PARA ENLACES CLONADOS)
-// ===================================
 document.addEventListener('click', function (e) {
     // Verificamos si lo que se presionó es un enlace que empieza con #
     const anchor = e.target.closest('a[href^="#"]');
@@ -113,9 +99,6 @@ document.addEventListener('click', function (e) {
     }
 });
 
-// ===================================
-// MODAL FUNCTIONALITY FOR SERVICES
-// ===================================
 const modal = document.getElementById('projectModal');
 const modalImage = document.getElementById('modalImage');
 const modalTitle = document.getElementById('modalTitle');
@@ -210,9 +193,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ===================================
-// SCROLL ANIMATIONS (INTERSECTION OBSERVER)
-// ===================================
 const observerOptions = {
     threshold: 0.15,
     rootMargin: '0px 0px -50px 0px'
