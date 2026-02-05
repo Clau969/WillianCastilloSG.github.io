@@ -671,7 +671,7 @@ body {
     display: block;
     color: #e0a32e;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.94rem;
     font-weight: 600;
     margin: 0.5rem 0;
     transition: all 0.3s ease;
@@ -773,29 +773,28 @@ body {
 }
 
 
-/* ===================================
-   RESPONSIVIDAD TOTAL (CORREGIDO)
-   =================================== */
-
 /* Tabletas y Móviles Grandes */
 /* ===================================
    RESPONSIVIDAD TOTAL (CORREGIDO)
    =================================== */
-   @media (min-width: 1025px) {
-    /* Nos aseguramos de que el diseño sea horizontal */
-    .features-grid, .services-grid .contact-grid{
-        display: grid;
-        grid-template-columns: repeat(4, 1fr) !important; /* 4 columnas horizontales */
-        gap: 30px;
-        width: 100%;
-    }
-    
-    /* Mantenemos los cortes diagonales originales de escritorio */
-    .about {
-        clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
-    }
+
+   .hero-content, 
+.about-content, 
+.services-container, 
+.contact-container,
+.section-title,
+.features-grid {
+    position: relative;
+    z-index: 10; /* Valor alto para estar por encima */
 }
 
+/* Aseguramos que los adornos de fondo (pseudo-elementos) se queden atrás */
+.about::before, 
+.services::before, 
+.contact::before,
+.hero::after {
+    z-index: 1 !important;
+}
    @media (max-width: 1024px) {
     /* Navbar más flexible */
     .nav-container {
@@ -811,7 +810,7 @@ body {
     .menu-toggle {
         display: flex;
         order: 3;
-        margin-right: 15px; /* Separación del borde derecho */
+        margin-right: 10px; /* Separación del borde derecho */
     }
 
     .logo {
